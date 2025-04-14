@@ -4,12 +4,6 @@ This is a modern and responsive Doctor’s Appointment Booking Website that allo
 🚀 Key Features
 🕒 Book your doctor’s appointment in seconds
 
-⏰ Skip the wait — schedule online anytime
-
-💻 Your health, just one click away
-
-🔗 Connect with doctors, easily and quickly
-
 📅 Manage and track your appointments effortlessly
 
 📆 Smart scheduling for clinics and patients
