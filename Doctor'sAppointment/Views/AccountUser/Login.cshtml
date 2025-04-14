@@ -1,0 +1,59 @@
+﻿@model LoginVM
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg p-4 border-0" style="width: 400px;">
+
+        <form asp-action="LogIn">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="fw-bold">Mobile or Email <span class="text-danger">*</span></label>
+                <input asp-for="Email" class="form-control" placeholder="Enter your email or phone" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Password" class="fw-bold">Password <span class="text-danger">*</span></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="********" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="RememberMe" />
+                    <label class="form-check-label">Remember Me</label>
+                </div>
+                <a asp-action="ForgetPassword" class="text-primary">Forgot Your Password?</a>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger w-100">
+                    <i class="fa fa-sign-in-alt"></i> LOGIN
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <span class="text-muted">or</span>
+        </div>
+
+        <div class="text-center mt-2">
+            <button class="btn btn-primary w-100">
+                <i class="fa fa-facebook"></i> Connect With Facebook
+            </button>
+        </div>
+
+        <div class="text-center mt-3">
+            <span>New User?</span> <a asp-action="Register" class="text-primary">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

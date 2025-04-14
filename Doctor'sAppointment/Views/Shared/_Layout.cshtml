@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MedCare Connect</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #0056b3;
+            --accent-color: #28a745;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 2rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 12px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            padding: 0.5rem 1.2rem !important;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            margin: 0 4px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            margin-right: 8px;
+        }
+
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+            border-top: 3px solid var(--secondary-color);
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .profile-icon {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        .profile-icon-dark {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .profile-icon-dark:hover {
+        background: rgba(0, 0, 0, 0.3);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .btn-dark-custom {
+        background: #2c3e50;
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-dark-custom:hover {
+        background: #1a252f;
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    .btn-dark-custom i {
+        margin-right: 6px;
+        font-size: 0.9rem;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="https://www.freepnglogos.com/uploads/medicine-logo-png-18.png" alt="MedCare Connect Logo">
+                    MedCare
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Doctor/Index">
+                                <i class="fas fa-user-md"></i>Doctors
+                            </a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Users/Index">
+                                        <i class="fas fa-users"></i>Users
+                                </a>
+                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Role/Index">
+                                        <i class="fas fa-user-shield"></i>Roles
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                        <div class="d-flex align-items-center gap-2">
+                                          <a href="/Patient/Index/"class="profile-icon-dark me-2">
+                                              <i class="fas fa-user-circle fa-sm"></i>
+                                          </a>
+                                          <a href="/AccountUser/Signout" class="btn btn-dark-custom btn-sm">
+                                              <i class="fas fa-sign-out-alt"></i> Sign Out
+                                          </a>
+                                          </div>
+                            }
+                            else
+                            {
+                                    <div class="d-flex align-items-center">
+                                        <a href="/AccountUser/Register" class="btn btn-custom me-2">
+                                            <i class="fas fa-user-plus"></i> Sign Up
+                                        </a>
+                                        <a href="/AccountUser/Login" class="btn btn-custom">
+                                            <i class="fas fa-sign-in-alt"></i> Login
+                                        </a>
+                                    </div>
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center text-md-start">
+                    <h5>MedCare Connect</h5>
+                    <p>Your Health, Our Priority</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="social-links mb-3">
+                        <a href="#" class="mx-3"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="mx-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="mx-3"><i class="fab fa-linkedin fa-lg"></i></a>
+                    </div>
+                    <p>&copy; 2023 MedCare Connect. All rights reserved.</p>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <a href="/Home/Privacy" class="d-block mb-2">Privacy Policy</a>
+                    <a href="/Home/Terms" class="d-block">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

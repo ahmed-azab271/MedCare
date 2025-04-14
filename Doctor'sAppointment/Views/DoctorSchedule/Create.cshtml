@@ -1,0 +1,136 @@
+﻿
+ @model DoctorScheduleVM
+@{
+    ViewData["Title"] = "Create Appointment";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card appointment-card shadow-lg border-0" style="width: 500px;">
+            <div class="card-header bg-gradient-primary text-white text-center py-4">
+                <h2 class="mb-0">
+                    <i class="fas fa-calendar-plus me-2"></i>
+                    Schedule Appointment
+                </h2>
+                <div class="hospital-logo mt-3">
+                    <i class="fas fa-hospital-alt fa-2x"></i>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <form asp-action="Create" class="needs-validation" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    <input type="hidden" asp-for="DoctorId" />
+
+               
+                    <div class="form-group mb-4">
+                        <label class="form-label text-primary fw-bold">
+                            <i class="fas fa-calendar-day me-2"></i>
+                            Select Day
+                        </label>
+                        <div class="input-group">
+                            <select asp-for="Day" class="form-select form-select-lg">
+                                @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                {
+                                        <option value="@day" class="text-capitalize">@day</option>
+                                }
+                            </select>
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </div>
+                        <span asp-validation-for="Day" class="text-danger small"></span>
+                    </div>
+
+                 
+                    <div class="form-group mb-4">
+                        <label class="form-label text-primary fw-bold">
+                            <i class="fas fa-clock me-2"></i>
+                            Select Time
+                        </label>
+                        <div class="input-group">
+                            <input asp-for="StartAt" type="time" 
+                                   class="form-control form-control-lg time-picker"
+                                   required />
+                            <span class="input-group-text">
+                                <i class="fas fa-hourglass-start"></i>
+                            </span>
+                        </div>
+                        <span asp-validation-for="StartAt" class="text-danger small"></span>
+                    </div>
+
+             
+                    <div class="d-grid gap-3 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg btn-hover">
+                            <i class="fas fa-calendar-check me-2"></i>
+                            Confirm Booking
+                        </button>
+                        <a asp-controller="Doctor" asp-action="Index" 
+                           class="btn btn-outline-secondary btn-lg btn-hover">
+                            <i class="fas fa-times-circle me-2"></i>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .appointment-card {
+        border-radius: 20px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .appointment-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+    }
+
+    .hospital-logo {
+        animation: pulse 2s infinite;
+    }
+
+    .form-select-lg, .form-control-lg {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    .input-group-text {
+        background: rgba(0,120,212,0.1);
+        border-color: rgba(0,120,212,0.2);
+    }
+
+    .btn-hover {
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    @@keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    .time-picker::-webkit-calendar-picker-indicator {
+        filter: invert(0.5);
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

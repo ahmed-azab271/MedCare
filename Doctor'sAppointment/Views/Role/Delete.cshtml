@@ -1,0 +1,153 @@
+﻿@model RoleVM
+@{
+    ViewData["Title"] = "Delete Role";
+}
+
+<div class="container py-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient-danger text-white py-4">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                <div>
+                    <h2 class="h4 mb-0">Delete Role</h2>
+                    <p class="small mb-0">Permanent removal of system role</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="alert alert-danger d-flex align-items-center mb-4">
+                <i class="fas fa-radiation fa-2x me-3"></i>
+                <div>
+                    <h5 class="alert-heading mb-1">Warning! This action is irreversible</h5>
+                    <p class="mb-0">You are about to permanently delete this role. This cannot be undone.</p>
+                </div>
+            </div>
+
+            <div class="role-details p-4 mb-4 border rounded bg-light">
+                <h5 class="text-danger mb-4 d-flex align-items-center">
+                    <i class="fas fa-id-card-alt me-3"></i>
+                    <span>Role Information</span>
+                </h5>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="detail-item p-3 d-flex align-items-center">
+                            <div class="icon-circle bg-danger text-white me-3">
+                                <i class="fas fa-fingerprint"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Role ID</div>
+                                <div class="fw-bold">@Html.DisplayFor(model => model.Id)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="detail-item p-3 d-flex align-items-center">
+                            <div class="icon-circle bg-warning text-white me-3">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Role Name</div>
+                                <div class="fw-bold">@Html.DisplayFor(model => model.Name)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form asp-action="ConfirmeDelete" class="mt-4">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                        <i class="fas fa-arrow-left me-2"></i>Cancel
+                    </a>
+
+                    <button type="submit" class="btn btn-danger px-4 btn-delete">
+                        <i class="fas fa-trash-alt me-2"></i>Confirm Deletion
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+        <style>
+            body {
+                background-color: #f8f9fa;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .card {
+                border-radius: 12px;
+                overflow: hidden;
+                border: none;
+            }
+
+            .bg-gradient-danger {
+                background: linear-gradient(135deg, #e74a3b 0%, #be2617 100%);
+            }
+
+            .role-details {
+                background-color: #f8fafc;
+                border: 1px solid #e2e8f0;
+            }
+
+            .detail-item {
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .detail-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+
+            .icon-circle {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .btn-delete {
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .btn-delete:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(231, 74, 59, 0.3);
+            }
+
+            .btn-delete:active {
+                transform: translateY(0);
+            }
+
+            .alert-danger {
+                border-left: 4px solid #e74a3b;
+            }
+        </style>
+
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+@section Scripts {
+        <script>
+     
+            document.querySelector('form').addEventListener('submit', function(e) {
+                if (!confirm('Are you absolutely sure you want to permanently delete this role?\n\nThis action cannot be undone!')) {
+                    e.preventDefault();
+                }
+            });
+        </script>
+}

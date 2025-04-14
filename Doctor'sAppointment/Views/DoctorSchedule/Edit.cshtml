@@ -1,0 +1,186 @@
+﻿
+ @model DoctorScheduleVM
+
+@{
+    ViewData["Title"] = "Edit Doctor Schedule";
+}
+
+<div class="container py-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white py-3">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-calendar-edit fa-2x me-3"></i>
+                <div>
+                    <h2 class="h4 mb-0">Edit Doctor Schedule</h2>
+                    <p class="small mb-0">Update the working schedule details</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <form asp-action="Edit" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="DoctorId" />
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Day" class="form-label fw-bold">
+                                <i class="far fa-calendar-alt me-2 text-primary"></i>Day of Week
+                            </label>
+                            <select asp-for="Day" class="form-select form-control-lg" required>
+                                @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                {
+                                        <option value="@day">@day</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Day" class="text-danger small"></span>
+                            <div class="invalid-feedback">
+                                Please select a day
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="StartAt" class="form-label fw-bold">
+                                <i class="far fa-clock me-2 text-primary"></i>Start Time
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-hourglass-start text-muted"></i>
+                                </span>
+                                <input asp-for="StartAt" class="form-control form-control-lg timepicker" type="time" required />
+                            </div>
+                            <span asp-validation-for="StartAt" class="text-danger small"></span>
+                            <div class="invalid-feedback">
+                                Please enter a valid start time
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="EndAt" class="form-label fw-bold">
+                                <i class="far fa-clock me-2 text-primary"></i>End Time
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-hourglass-end text-muted"></i>
+                                </span>
+                                <input asp-for="EndAt" class="form-control form-control-lg timepicker" type="time" required />
+                            </div>
+                            <span asp-validation-for="EndAt" class="text-danger small"></span>
+                            <div class="invalid-feedback">
+                                Please enter a valid end time
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-5 pt-3 border-top">
+                    <a asp-controller="Doctor" asp-action="Index" asp-route-id="@Model.DoctorId" class="btn btn-outline-secondary px-4">
+                        <i class="fas fa-arrow-left me-2"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+        <style>
+            body {
+                background-color: #f8fafc;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .card {
+                border-radius: 10px;
+                overflow: hidden;
+                border: none;
+            }
+
+            .card-header {
+                border-bottom: none;
+            }
+
+            .form-control-lg {
+                padding: 0.75rem 1rem;
+                font-size: 1rem;
+            }
+
+            .form-select {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+                background-position: right 1rem center;
+                background-size: 16px 12px;
+            }
+
+            .input-group-text {
+                transition: all 0.3s ease;
+            }
+
+            .form-control:focus + .input-group-text,
+            .form-select:focus + .input-group-text {
+                color: #0d6efd;
+                background-color: #e7f1ff;
+            }
+
+            .btn-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                transition: all 0.3s ease;
+            }
+
+            .btn-primary:hover {
+                background-color: #0b5ed7;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+            }
+
+            .btn-outline-secondary:hover {
+                background-color: #f8f9fa;
+            }
+        </style>
+
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+        <script>
+          
+            (function () {
+                'use strict'
+
+
+                var forms = document.querySelectorAll('.needs-validation')
+
+
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
+        document.querySelectorAll('.timepicker').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.type = 'time';
+                    this.step = 900;
+                });
+            });
+        </script>
+}

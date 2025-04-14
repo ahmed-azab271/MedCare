@@ -1,0 +1,126 @@
+﻿
+@model DoctorVM
+
+@{
+    ViewData["Title"] = "Doctor Details";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    .details-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        margin-top: 40px;
+    }
+
+    .details-card {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width: 500px;
+    }
+
+    .details-card h1 {
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .details-card h4 {
+        font-size: 18px;
+        color: #555;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .details-list dt {
+        font-weight: bold;
+        color: #007bff;
+        margin-top: 10px;
+    }
+
+    .details-list dd {
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #444;
+    }
+
+    .action-buttons {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-custom {
+        background: #007bff;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        display: inline-block;
+        transition: 0.3s;
+        margin: 5px;
+    }
+
+    .btn-custom:hover {
+        background: #0056b3;
+    }
+
+    .btn-secondary {
+        background: #28a745;
+    }
+
+    .btn-secondary:hover {
+        background: #1e7e34;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+    }
+
+    .btn-danger:hover {
+        background: #c82333;
+    }
+</style>
+
+<div class="details-container">
+    <div class="details-card">
+        <h1>🩺 Doctor Details</h1>
+        <h4>Doctor Information</h4>
+        <hr />
+
+        <dl class="row details-list">
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FullName)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.FullName)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.City)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.City)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Specialty)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Specialty)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Fees)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Fees)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ExperinceYears)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.ExperinceYears) years</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Resume)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Resume)</dd>
+        </dl>
+
+        <div class="action-buttons">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-custom">✏ Edit</a>
+            <a asp-controller="DoctorSchedule" asp-action="Index" asp-route-id="@Model?.Id" class="btn-custom btn-secondary">📅 Make Appointment</a>
+            <a asp-action="Index" class="btn-custom btn-danger">⬅ Back to List</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+﻿@model PatientVM
+@{
+    ViewData["Title"] = "Edit Symptoms";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">
+                <i class="fas fa-edit me-2"></i>Edit Symptoms Report - @Model.FullName
+            </h3>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="EditSymptoms" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="FullName" />
+                 <input type="hidden" asp-for="Email" />
+                 <input type="hidden" asp-for="AccountUserId" />
+
+                <div class="row">
+                   
+                    <div class="col-md-8">
+                        <div class="form-group mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-comment-medical me-2"></i>Symptoms Description *
+                            </label>
+                            <textarea asp-for="Description" class="form-control" rows="5" 
+                                    placeholder="Describe your symptoms..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                            <small class="form-text text-muted">Maximum 500 characters</small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                   
+                        <div class="form-group mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-thermometer-half me-2"></i>Symptom Severity *
+                            </label>
+                            <select asp-for="Severity" class="form-select">
+                                <option value="">Select Severity</option>
+                                <option value="Mild">Mild</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="Severe">Severe</option>
+                                <option value="Emergency">Emergency</option>
+                            </select>
+                            <span asp-validation-for="Severity" class="text-danger"></span>
+                        </div>
+
+               
+                        <div class="form-group mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-clock me-2"></i>Duration *
+                            </label>
+                            <input asp-for="Duration" type="text" class="form-control" 
+                                   placeholder="Example: 2 days, 3 hours">
+                            <span asp-validation-for="Duration" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-plus-circle me-2"></i>Additional Notes
+                            </label>
+                            <textarea asp-for="AdditionalNotes" class="form-control" rows="3"
+                                      placeholder="Medications, allergies, etc..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Profile
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        border: none;
+    }
+
+    .form-label {
+        color: #0078D4;
+        font-weight: 500;
+    }
+
+    textarea {
+        resize: none;
+        border: 2px solid #0078D4;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .form-select {
+        border: 2px solid #0078D4;
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        background-color: #0078D4;
+        border: none;
+        padding: 0.8rem 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .form-control:focus {
+        border-color: #0056b3;
+        box-shadow: 0 0 0 0.25rem rgba(0, 120, 212, 0.25);
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+        <script>
+      
+            $(document).ready(function() {
+                const $description = $('#Description');
+                const $counter = $('<small class="form-text text-muted float-end"></small>');
+                $description.after($counter);
+
+                $description.on('input', function() {
+                    const length = $(this).val().length;
+                    $counter.text(length + '/500 characters');
+                });
+            });
+        </script>
+}

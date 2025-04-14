@@ -1,0 +1,137 @@
+﻿@model PatientVM
+@{
+    ViewData["Title"] = "Medical Records";
+}
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">
+                <i class="fas fa-file-medical me-2"></i>Medical Record - @Model.FullName
+            </h3>
+        </div>
+
+        <div class="card-body">
+            @if (string.IsNullOrEmpty(Model.Diagnosis))
+            {
+                    
+                    <form asp-action="MedicalRecords" method="post">
+                             <div asp-validation-summary="All" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Diagnosis" class="form-label">
+                                        <i class="fas fa-diagnoses me-2"></i>Diagnosis *
+                                    </label>
+                                    <input asp-for="Diagnosis" class="form-control" placeholder="Enter diagnosis" />
+                                    <span asp-validation-for="Diagnosis" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Doctor" class="form-label">
+                                        <i class="fas fa-user-md me-2"></i>Treating Doctor *
+                                    </label>
+                                    <input asp-for="Doctor" class="form-control" placeholder="Doctor's name" />
+                                    <span asp-validation-for="Doctor" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Treatment" class="form-label">
+                                <i class="fas fa-prescription-bottle-alt me-2"></i>Treatment *
+                            </label>
+                            <textarea asp-for="Treatment" class="form-control" rows="3" 
+                                      placeholder="Describe the treatment plan"></textarea>
+                            <span asp-validation-for="Treatment" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Notes" class="form-label">
+                                <i class="fas fa-notes-medical me-2"></i>Additional Notes
+                            </label>
+                            <textarea asp-for="Notes" class="form-control" rows="2"
+                                      placeholder="Any additional comments"></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>Save Medical Record
+                            </button>
+                        </div>
+                    </form>
+            }
+            else
+            {
+                  
+                    <div class="medical-details">
+                        <div class="alert alert-success">
+                            <h4><i class="fas fa-check-circle me-2"></i>Current Medical Record</h4>
+                        </div>
+
+                        <dl class="row">
+                            <dt class="col-sm-3 text-primary">Diagnosis</dt>
+                            <dd class="col-sm-9">@Model.Diagnosis</dd>
+
+                            <dt class="col-sm-3 text-primary">Treatment</dt>
+                            <dd class="col-sm-9">@Model.Treatment</dd>
+
+                            <dt class="col-sm-3 text-primary">Doctor</dt>
+                            <dd class="col-sm-9">@Model.Doctor</dd>
+
+                        @if (!string.IsNullOrEmpty(Model.Notes))
+                        {
+                                    <dt class="col-sm-3 text-primary">Notes</dt>
+                                    <dd class="col-sm-9">@Model.Notes</dd>
+                        }
+                        </dl>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Patients"))
+                    {
+                  
+                        <div class="text-center mt-4">
+                            <a asp-action="EditMedicalRecords" asp-route-id="@Model.Id" 
+                               class="btn btn-warning btn-lg">
+                                <i class="fas fa-edit me-2"></i>Edit Record
+                            </a>
+                        </div>
+                    }
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+
+        <style>
+            .medical-details dt {
+                font-weight: 600;
+                margin-top: 1rem;
+            }
+
+            .medical-details dd {
+                margin-bottom: 0.5rem;
+                padding-left: 1rem;
+                border-left: 3px solid #0078D4;
+            }
+
+            .form-label {
+                color: #0078D4;
+                font-weight: 500;
+            }
+
+            .btn-primary {
+                background-color: #0078D4;
+                border: none;
+                padding: 0.8rem 2rem;
+            }
+        </style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

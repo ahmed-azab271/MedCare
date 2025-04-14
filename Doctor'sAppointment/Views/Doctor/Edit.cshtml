@@ -1,0 +1,152 @@
+﻿@model DoctorVM
+
+@{
+    ViewData["Title"] = "Edit Doctor";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    .edit-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        margin-top: 40px;
+    }
+
+    .edit-card {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width: 450px;
+    }
+
+    .edit-card h1 {
+        font-size: 22px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        transition: 0.3s;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background: #0056b3;
+    }
+
+    .btn-secondary {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+        text-decoration: underline;
+    }
+
+    .text-danger {
+        font-size: 12px;
+    }
+
+    .file-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+    }
+</style>
+
+<div class="edit-container">
+    <div class="edit-card">
+        <h1>🩺 Edit Doctor Profile</h1>
+
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImageName" />
+            <input type="hidden" asp-for="Image" />
+
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label">Full Name</label>
+                <input asp-for="FullName" class="form-control" placeholder="Enter full name" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="City" class="control-label">City</label>
+                <input asp-for="City" class="form-control" placeholder="Enter city" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Specialty" class="control-label">Specialty</label>
+                <input asp-for="Specialty" class="form-control" placeholder="Enter specialty" />
+                <span asp-validation-for="Specialty" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Fees" class="control-label">Consultation Fees</label>
+                <input asp-for="Fees" class="form-control" placeholder="Enter fees" />
+                <span asp-validation-for="Fees" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ExperinceYears" class="control-label">Experience (Years)</label>
+                <input asp-for="ExperinceYears" class="form-control" placeholder="Enter experience in years" />
+                <span asp-validation-for="ExperinceYears" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Resume" class="control-label">Resume</label>
+                <input asp-for="Resume" class="form-control" placeholder="Provide resume details" />
+                <span asp-validation-for="Resume" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Image" class="control-label">Profile Image</label>
+                <input asp-for="Image" class="file-input" type="file" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn-primary" />
+            </div>
+        </form>
+
+        <a asp-action="Index" class="btn-secondary">🔙 Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

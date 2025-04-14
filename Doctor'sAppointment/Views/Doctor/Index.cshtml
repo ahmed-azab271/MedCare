@@ -1,0 +1,201 @@
+﻿ @model IEnumerable<DoctorVM>
+@{
+    ViewData["Title"] = "Doctors List";
+}
+
+<div class="container mt-4 doctor-list">
+   
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4 text-primary">
+            <i class="fas fa-user-md me-3"></i>Our Medical Experts
+        </h1>
+        @if (User.IsInRole("Admin") || User.IsInRole("Doctors"))
+        {
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus-circle me-2"></i>Add New Doctor
+                </a>
+        }
+    </div>
+
+    @foreach (var item in Model)
+    {
+            <div class="card doctor-card shadow-lg mb-4 border-0">
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                       
+                        <div class="col-md-2 text-center">
+                            <img src="~/Files/Image/@item.ImageName" 
+                                 class="doctor-img rounded-circle shadow"
+                                 alt="Dr. @item.FullName">
+                        </div>
+
+                      
+                        <div class="col-md-6">
+                            <div class="doctor-info">
+                                <h2 class="text-primary mb-3">
+                                    <i class="fas fa-stethoscope me-2"></i>Dr. @item.FullName
+                                </h2>
+
+                                <div class="doctor-meta mb-4">
+                                    <div class="badge bg-primary-gradient mb-2">
+                                        <i class="fas fa-certificate me-2"></i>@item.Specialty
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <div class="location">
+                                            <i class="fas fa-map-marker-alt text-danger me-2"></i>@item.City
+                                        </div>
+                                        <div class="fees">
+                                            <i class="fas fa-coins text-warning me-2"></i>@item.Fees EGP
+                                        </div>
+                                        <div class="experience">
+                                            <i class="fas fa-briefcase text-success me-2"></i>@item.ExperinceYears Years Experience
+                                        </div>
+                                    </div>
+                                </div>
+
+                              
+                                <div class="resume-section mb-4">
+                                    <h5 class="text-secondary mb-3">
+                                        <i class="fas fa-file-medical me-2"></i>Professional Summary
+                                    </h5>
+                                    <p class="text-muted">@item.Resume</p>
+                                </div>
+
+
+                            @if (User.IsInRole("Admin") || User.IsInRole("Doctors"))
+                            { 
+                                        <div class="doctor-actions d-flex gap-2">
+                                            <a asp-action="Edit" asp-route-id="@item.Id" 
+                                               class="btn btn-warning btn-hover">
+                                                <i class="fas fa-edit me-2"></i>Edit
+                                            </a>
+                                            <a asp-action="Details" asp-route-id="@item.Id" 
+                                               class="btn btn-info btn-hover">
+                                                <i class="fas fa-info-circle me-2"></i>Details
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" 
+                                               class="btn btn-danger btn-hover">
+                                                <i class="fas fa-trash-alt me-2"></i>Delete
+                                            </a>
+                                        </div>
+                            }
+                            </div>
+                        </div>
+
+               
+                        <div class="col-md-4">
+                            <div class="appointment-section p-3 rounded-3">
+                                     <a asp-controller="DoctorSchedule" asp-action="Index" asp-route-id="@item.Id" >
+                                <h4 class="text-success mb-4">
+                                    <i class="fas fa-calendar-check me-2"></i>Appointments
+                                </h4>
+                                 </a>
+
+                            @if (item.DoctorSchedules.Any())
+                            {
+                                        <div class="schedule-list">
+                                    @foreach (var schedule in item.DoctorSchedules)
+                                    {
+                                                    <div class="schedule-item bg-white p-3 mb-3 rounded-2 shadow-sm">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <span class="badge bg-primary me-2">@schedule.Day</span>
+                                                                <span class="text-muted">
+                                                                    <i class="fas fa-clock me-2"></i>@schedule.StartAt.ToString("hh:mm tt")
+                                                                </span>
+                                                            </div>
+                                                @if (User.IsInRole("Admin") || User.IsInRole("Doctors"))
+                                                { 
+                                                                    <div class="patient-info">
+                                                        @if (schedule.Patient != null)
+                                                        {
+                                                                                <a asp-controller="Patient" asp-action="Index" 
+                                                                                  asp-route-id="@schedule.Patient.Id" class="text-decoration-none">
+                                                                                    <i class="fas fa-user-injured me-2"></i>
+                                                                @schedule.Patient.FullName
+                                                                                </a>
+                                                        }
+                                                                    </div>
+                                                }
+                                                        </div>
+                                                    </div>
+                                    }
+                                        </div>
+                            }
+                            else
+                            {
+                                        <div class="alert alert-success">
+                                            <i class="fas fa-smile-beam me-2"></i>Available for Immediate Booking
+                                        </div>
+                            }
+
+                                <a href="/DoctorSchedule/Create/@item.Id" 
+                                   class="btn btn-success btn-lg w-100 mt-3">
+                                    <i class="fas fa-calendar-plus me-2"></i>Book Appointment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
+
+<style>
+    .doctor-list {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 2rem 0;
+    }
+
+    .doctor-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .doctor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .doctor-img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border: 3px solid #007bff;
+        padding: 3px;
+    }
+
+    .appointment-section {
+        background: rgba(0,120,212,0.05);
+        border: 1px solid rgba(0,120,212,0.1);
+    }
+
+    .btn-hover {
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-hover:hover {
+        transform: translateY(-2px);
+    }
+
+    .schedule-item {
+        transition: transform 0.2s ease;
+    }
+
+    .schedule-item:hover {
+        transform: translateX(5px);
+    }
+
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+    }
+
+    .badge {
+        padding: 0.1em 0.5em;
+        font-weight: 500;
+    }
+</style>
