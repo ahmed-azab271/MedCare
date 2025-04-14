@@ -1,5 +1,5 @@
 💡 Project Overview
-This is a modern and responsive Doctor’s Appointment Booking Website that allows patients to easily reserve appointments online. Designed with both patients and doctors in mind, the platform offers a smooth and secure experience for managing medical visits.
+This is a modern and responsive Booking Website that allows patients to easily reserve appointments online. Designed with both patients and doctors in mind, the platform offers a smooth and secure experience for managing medical visits.
 
 🚀 Key Features
 🕒 Book your doctor’s appointment in seconds
